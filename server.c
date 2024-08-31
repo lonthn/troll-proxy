@@ -13,7 +13,7 @@
 
 // Config macros.
 #define SERVER_ADDR "0.0.0.0"
-#define SERVER_PORT 13500
+#define SERVER_PORT 8888
 
 #define THREAD_NUM 4
 #define BUFFER_SIZE 65536
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
   struct sockaddr_in addr;
   thread_context_t *ctx;
 
-  /* ÕâÊÇÒ»Ğ©³õÊ¼»¯µÄ²Ù×÷ */
+  /* è¿™æ˜¯ä¸€äº›åˆå§‹åŒ–çš„æ“ä½œ */
   uv_key_create(&tctx_key_);
   ctx = thread_ctx_init();
 
@@ -101,12 +101,12 @@ int main(int argc, char **argv) {
     uv_thread_create(&(threads_[i].tid), on_trun, NULL);
   }
 
-  // ¿ªÆôÁ÷Á¿Í³¼Æ¶¨Ê±Æ÷
+  // å¼€å¯æµé‡ç»Ÿè®¡å®šæ—¶å™¨
   memset(traffic_sts, 0, sizeof(struct traffic) * 2);
   uv_timer_init(&ctx->loop, &timer);
   uv_timer_start(&timer, on_timer, 1000, 1000);
 
-  /* Æô¶¯Ò»¸ö tcp µÄ·şÎñ£¬½ÓÊÕĞèÒª±»´úÀíµÄ¿Í»§¶ËÁ¬½Ó */
+  /* å¯åŠ¨ä¸€ä¸ª tcp çš„æœåŠ¡ï¼Œæ¥æ”¶éœ€è¦è¢«ä»£ç†çš„å®¢æˆ·ç«¯è¿æ¥ */
   uv_tcp_init(&ctx->loop, &server);
 
   uv_ip4_addr(SERVER_ADDR, SERVER_PORT, &addr);
@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
     return err;
   }
 
-  /* ¿ªÊ¼¼àÌıÁ¬½Ó */
+  /* å¼€å§‹ç›‘å¬è¿æ¥ */
   uv_listen((uv_stream_t *) &server, 1024, on_connection);
 
   LOGI("Listening on port %d...", SERVER_PORT);
@@ -198,7 +198,7 @@ void on_connect(uv_connect_t *req, int status) {
     return;
   }
 
-  // ÓëÄ¿±ê·şÎñÆ÷³É¹¦½¨Á¢Á¬½Ó
+  // ä¸ç›®æ ‡æœåŠ¡å™¨æˆåŠŸå»ºç«‹è¿æ¥
   ctx->cs = kcs_established;
   write_req = ALLOC_ST(uv_write_t);
   write_req->data = ctx;
