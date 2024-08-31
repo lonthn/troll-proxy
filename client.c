@@ -21,8 +21,8 @@
 #define BUFFER_SIZE 65536
 
 #define HANDSHAKE_REQ \
-  "CONNECT 106.14.25.179:13500 HTTP/1.1\r\n" \
-  "Host: 106.14.25.179:13500\r\n"            \
+  "CONNECT <troll-svr-host>:8888 HTTP/1.1\r\n" \
+  "Host: <troll-svr-host>:8888\r\n"            \
   "Proxy-Connection: keep-alive\r\n"         \
   "User-Agent: libuv-1.44.2\r\n"             \
   "\r\n"
