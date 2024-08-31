@@ -1,0 +1,3 @@
+[submodule "libuv-1.44.2"]
+	path = libuv-1.44.2
+	url = https://github.com/libuv/libuv
