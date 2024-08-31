@@ -14,7 +14,7 @@
 #define SERVER_ADDR "0.0.0.0"
 #define SERVER_PORT 8080
 
-#define RELAY_ADDR "172.192.128.1"
+#define RELAY_ADDR "192.168.1.1"
 #define RELAY_PORT 8080
 
 #define THREAD_NUM 4
@@ -64,7 +64,7 @@ int main() {
   struct sockaddr_in addr;
   thread_context_t *ctx;
 
-  /* ÕâÊÇÒ»Ð©³õÊ¼»¯µÄ²Ù×÷ */
+  /* è¿™æ˜¯ä¸€äº›åˆå§‹åŒ–çš„æ“ä½œ */
   uv_key_create(&tctx_key_);
   ctx = thread_ctx_init();
   logger_init(&logger_, INFO);
@@ -75,7 +75,7 @@ int main() {
     uv_thread_create(&(threads_[i].tid), on_trun, NULL);
   }
 
-  /// Æô¶¯Ò»¸ö tcp µÄ·þÎñ£¬½ÓÊÕÐèÒª±»´úÀíµÄ¿Í»§¶ËÁ¬½Ó
+  /// å¯åŠ¨ä¸€ä¸ª tcp çš„æœåŠ¡ï¼ŒæŽ¥æ”¶éœ€è¦è¢«ä»£ç†çš„å®¢æˆ·ç«¯è¿žæŽ¥
   uv_ip4_addr(RELAY_ADDR, RELAY_PORT, (struct sockaddr_in *) &relay_addr_);
   uv_ip4_addr(SERVER_ADDR, SERVER_PORT, &addr);
   err = uv_tcp_bind(&server, (struct sockaddr *) &addr, 0);
@@ -83,7 +83,7 @@ int main() {
     LOGE("Address bind error: %d", err);
     return err;
   }
-  /* ¿ªÊ¼¼àÌýÁ¬½Ó */
+  /* å¼€å§‹ç›‘å¬è¿žæŽ¥ */
   uv_listen((uv_stream_t *) &server, 1024, on_connection);
 
   LOGI("Listening on port %d...", SERVER_PORT);
@@ -169,7 +169,7 @@ void on_connect(uv_connect_t *req, int status) {
 
   LOGI("Client[%s] connected relay!", strip(&(ctx->client)));
 
-  // ÓëÖÐ¼Ì·þÎñÆ÷³É¹¦½¨Á¢Á¬½Ó
+  // ä¸Žä¸­ç»§æœåŠ¡å™¨æˆåŠŸå»ºç«‹è¿žæŽ¥
 
   ctx->cs = kcs_handshake;
   write_req = malloc(sizeof(uv_write_t));
